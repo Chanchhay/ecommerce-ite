@@ -1,9 +1,15 @@
 package co.istad.ecommerce.model.service.impl;
 
+import co.istad.ecommerce.model.domain.Category;
 import co.istad.ecommerce.model.domain.Product;
+import co.istad.ecommerce.model.dto.category.CategoryRes;
 import co.istad.ecommerce.model.dto.product.ProductResponse;
+import co.istad.ecommerce.model.mapper.category.CategoryMapper;
+import co.istad.ecommerce.model.repository.CategoryRepo;
 import co.istad.ecommerce.model.repository.ProductRepo;
 import co.istad.ecommerce.model.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +24,17 @@ public class ProductServiceImpl implements ProductService {
 
     public List<ProductResponse> getAllProduct() {
         List<Product> product = productRepo.findAll();
-        return product.stream().map(p -> ProductResponse.builder().uuid(p.getUuid()).code(p.getCode()).name(p.getName()).description(p.getDescription()).thumbnail(p.getThumbnail()).unitPrice(p.getUnitPrice()).qty(p.getQty()).isAvailable(p.getIsAvailable()).isDelete(p.getIsDelete()).categoryId(p.getCategory().getId()).build()).toList();
+        return product.stream().map(p -> ProductResponse.builder()
+                .uuid(p.getUuid())
+                .code(p.getCode())
+                .name(p.getName())
+                .description(p.getDescription())
+                .thumbnail(p.getThumbnail())
+                .unitPrice(p.getUnitPrice())
+                .qty(p.getQty())
+                .isAvailable(p.getIsAvailable())
+                .isDelete(p.getIsDelete())
+                .categoryId(p.getCategory().getId())
+                .build()).toList();
     }
 }
