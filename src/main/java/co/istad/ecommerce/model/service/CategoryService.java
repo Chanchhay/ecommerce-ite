@@ -1,7 +1,10 @@
 package co.istad.ecommerce.model.service;
 
+import co.istad.ecommerce.model.domain.Category;
 import co.istad.ecommerce.model.dto.category.CategoryRes;
 import co.istad.ecommerce.model.dto.category.CreateCategoryReq;
+import co.istad.ecommerce.model.dto.filter.RequestDto;
+import co.istad.ecommerce.model.dto.filter.SearchRequestDto;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,5 +25,9 @@ public interface CategoryService {
     CategoryRes updateCategory(Integer id, CreateCategoryReq categoryReq);
 
     List<CategoryRes> getSubcategories(Integer id);
+
+    Page<CategoryRes> searchCategories(String name, String description, Pageable pageable);
+
+    Page<CategoryRes> dynamicSearch(List<SearchRequestDto> searchRequestDto, Pageable pageable, RequestDto.GlobalOperator globalOperator);
 
 }

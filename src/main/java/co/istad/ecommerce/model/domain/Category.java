@@ -1,5 +1,6 @@
 package co.istad.ecommerce.model.domain;
 
+import co.istad.ecommerce.config.audit.BasedAuditingEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Category {
+public class Category extends BasedAuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +38,8 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private List<Product> products;
+
+    public Category(String test, String ohYeah, String yeahEeyah, boolean b, Object o) {
+        super();
+    }
 }

@@ -3,13 +3,18 @@ package co.istad.ecommerce.model.service.impl;
 import co.istad.ecommerce.model.domain.Category;
 import co.istad.ecommerce.model.dto.category.CategoryRes;
 import co.istad.ecommerce.model.dto.category.CreateCategoryReq;
+import co.istad.ecommerce.model.dto.filter.RequestDto;
+import co.istad.ecommerce.model.dto.filter.SearchRequestDto;
 import co.istad.ecommerce.model.mapper.category.CategoryMapper;
 import co.istad.ecommerce.model.repository.CategoryRepo;
+import co.istad.ecommerce.model.repository.CategorySpecification;
 import co.istad.ecommerce.model.service.CategoryService;
+import co.istad.ecommerce.model.service.specification.FilterSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,6 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepo categoryRepo;
     private final CategoryMapper categoryMapper;
+    private final FilterSpecification<Category> filterSpecification;
 
     @Override
     public CategoryRes createCategory(CreateCategoryReq categoryReq) {
@@ -40,6 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         Category category = categoryMapper.mapCreateCategoryRequestToCategory(categoryReq);
+        category.setIsDeleted(false);
         category.setParentCategory(parentCategory);
 
         categoryRepo.save(category);
@@ -87,6 +94,18 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> subcategories = categoryRepo.getCategoriesByParentCategoryId(id);
         return subcategories.stream().map(categoryMapper::mapCategoryToCategoryRes).toList();
     }
+
+    @Override
+    public Page<CategoryRes> searchCategories(String name, String description, Pageable pageable) {
+        var specs = Specification.where(CategorySpecification.nameContains(name)).or(CategorySpecification.descriptionContains(description));
+        return categoryRepo.findAll(specs, pageable).map(categoryMapper::mapCategoryToCategoryRes);
+    }
+
+    @Override
+    public Page<CategoryRes> dynamicSearch(List<SearchRequestDto> searchRequestDto, Pageable pageable, RequestDto.GlobalOperator globalOperator){
+        Specification<Category> specs = Specification.where(filterSpecification.getSearchSpecificationDynamic(searchRequestDto, globalOperator));
+        return categoryRepo.findAll(specs, pageable).map(categoryMapper::mapCategoryToCategoryRes);
+}
 
 
 }

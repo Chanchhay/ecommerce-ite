@@ -2,6 +2,7 @@ package co.istad.ecommerce.controller;
 
 import co.istad.ecommerce.model.dto.category.CategoryRes;
 import co.istad.ecommerce.model.dto.category.CreateCategoryReq;
+import co.istad.ecommerce.model.dto.filter.RequestDto;
 import co.istad.ecommerce.model.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryRes createCategory(@Valid @RequestBody CreateCategoryReq categoryReq){
+    public CategoryRes createCategory(@Valid @RequestBody CreateCategoryReq categoryReq) {
         return categoryService.createCategory(categoryReq);
     }
 
@@ -30,13 +31,14 @@ public class CategoryController {
     public Page<CategoryRes> getAllCategories(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
-    ){
+    ) {
         Pageable pageable = PageRequest.of(page, size);
         return categoryService.getAllCategories(pageable);
     }
 
     @GetMapping("/{id}")
-    public CategoryRes getCategoryById(@PathVariable Integer id){
+    public CategoryRes getCategoryById(
+            @PathVariable Integer id) {
         return categoryService.getCategoryById(id);
     }
 
@@ -49,19 +51,31 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void softDeleteCategory(@PathVariable Integer id){
+    public void softDeleteCategory(@PathVariable Integer id) {
         categoryService.softDeleteCategory(id);
     }
 
     @PatchMapping("/{id}")
-    public CategoryRes updateCategory(@PathVariable Integer id, @RequestBody CreateCategoryReq categoryReq){
+    public CategoryRes updateCategory(@PathVariable Integer id, @RequestBody CreateCategoryReq categoryReq) {
         return categoryService.updateCategory(id, categoryReq);
     }
 
     @GetMapping("/{id}/subcategories")
-    public List<CategoryRes> getSubcategories(@PathVariable Integer id){
+    public List<CategoryRes> getSubcategories(@PathVariable Integer id) {
         return categoryService.getSubcategories(id);
     }
 
+    @GetMapping("/search")
+    public Page<CategoryRes> searchCategory(@RequestParam(required = false) String name, @RequestParam(required = false) String description, @RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return categoryService.searchCategories(name, description, pageable);
+    }
 
+    @PostMapping("/dynamic")
+    public Page<CategoryRes> searchDynamic(@RequestBody RequestDto requestDto, @RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(defaultValue = "5") int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return categoryService.dynamicSearch(requestDto.getSearchRequestDto(), pageable, requestDto.getGlobalOperator());
+    }
 }
