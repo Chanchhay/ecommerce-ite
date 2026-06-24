@@ -1,9 +1,9 @@
 package co.istad.ecommerce.config;
 
-import co.istad.ecommerce.model.domain.Category;
-import co.istad.ecommerce.model.domain.Order;
-import co.istad.ecommerce.model.domain.OrderLine;
-import co.istad.ecommerce.model.domain.Product;
+import co.istad.ecommerce.features.category.Category;
+import co.istad.ecommerce.features.order.Order;
+import co.istad.ecommerce.features.order.OrderLine;
+import co.istad.ecommerce.features.product.Product;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -122,7 +122,7 @@ public class MockDataInitializer implements CommandLineRunner {
                 product.setUnitPrice(new BigDecimal(seed.unitPrice()));
                 product.setQty(seed.qty());
                 product.setIsAvailable(seed.available());
-                product.setIsDelete(seed.deleted());
+                product.setIsDeleted(seed.deleted());
                 product.setCategory(categories.get(seed.categoryName()));
                 entityManager.persist(product);
             }
