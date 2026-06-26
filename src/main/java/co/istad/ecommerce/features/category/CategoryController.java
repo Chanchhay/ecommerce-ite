@@ -61,6 +61,4 @@ public class CategoryController {
     public List<CategoryRes> getSubcategories(@PathVariable Integer id){
         return categoryService.getSubcategories(id);
     }
-
-
 }

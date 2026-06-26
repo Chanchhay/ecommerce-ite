@@ -31,14 +31,4 @@ public class OrderLine {
 
     private Integer qty;
     private BigDecimal unitPrice;
-
-    @Repository
-    public static interface OrderRepo extends JpaRepository<Order, Integer> {
-    }
-
-    @Repository
-    public static interface OrderLineRepo extends JpaRepository<OrderLine, Integer>
-    {
-
-    }
 }

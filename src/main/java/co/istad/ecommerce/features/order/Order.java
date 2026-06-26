@@ -35,11 +35,11 @@ public class Order {
     private String remark;
 
     @Column
-    private LocalDateTime orderedAt;
+    private LocalDateTime orderedAt = LocalDateTime.now();
 
     @Column
     private Boolean isDelete;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
     private List<OrderLine> orderLines;
 }

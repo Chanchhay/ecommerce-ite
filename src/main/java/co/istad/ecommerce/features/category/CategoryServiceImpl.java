@@ -37,6 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = categoryMapper.mapCreateCategoryRequestToCategory(categoryReq);
         category.setParentCategory(parentCategory);
+        category.setIsDeleted(false);
 
         categoryRepo.save(category);
 

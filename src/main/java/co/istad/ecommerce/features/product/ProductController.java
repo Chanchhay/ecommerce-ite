@@ -23,7 +23,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public Page<ProductResponse> getAllProducts(@RequestParam int page,@RequestParam int size){
+    public Page<ProductResponse> getAllProducts(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "5") int size){
         PageRequest pageRequest = PageRequest.of(page, size);
         return productService.getAllProducts(pageRequest);
     }
