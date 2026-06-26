@@ -16,9 +16,14 @@ public class FileUpload {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @Column(nullable = false, length = 10)
+    private String extension;
+
     private String caption;
     @Column(nullable = false)
     private Long size;
     @Column(nullable = false)
     private String mediaType;
+    @Column(nullable = false)
+    private String uri;
 }

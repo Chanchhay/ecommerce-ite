@@ -6,6 +6,11 @@ spring:
     url: ${URL}
     username: ${USERNAME}
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -22,5 +27,5 @@ server:
 
 file:
   client-path: file
-  storage-location: /home/chanchhay/Pictures/ite-file-upload/
-  base-uri: http://localhost:${server.port}/${file.client-path}
+  storage-location: /home/chanchhay/Pictures/ite-file-upload
+  base-uri: http://localhost:${server.port}/${file.client-path}/
