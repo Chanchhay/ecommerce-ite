@@ -40,6 +40,6 @@ public class Order {
     @Column
     private Boolean isDelete;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderLine> orderLines;
 }

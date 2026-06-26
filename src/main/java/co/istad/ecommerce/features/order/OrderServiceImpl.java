@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
         final Order order = orderMapper.toOrder(orderRequest);
         order.setIsDelete(false);
         order.setStatus(false);
-        order.setCustomerId("Ah_Chhay");
+        order.setCustomerId("OH_YEAH");
 
         boolean isValidOrder = orderRequest.orderLines().stream().allMatch(orderLineDto -> {
                     Optional<Product> product = productRepository.findByCode((orderLineDto.code()));
